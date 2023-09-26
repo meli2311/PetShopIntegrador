@@ -44,7 +44,7 @@ a {
 }
 
 button {
-	border-radius: 20px;
+	border-radius: 10px;
 	border: 1px solid #a55041;
 	background-color: #a55041;
 	color: #FFFFFF;
@@ -53,6 +53,20 @@ button {
 	padding: 12px 45px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.btn-facebook{
+	border: 1px solid #0078ff;
+	background-color: #0078ff;
+	color: #FFFFFF;
+	width: 60%;
+	padding: 12px 5px;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	display: block;
+	border-radius: 10px;
 	transition: transform 80ms ease-in;
 }
 
@@ -247,3 +261,4 @@ footer a {
     color: #3c97bf;
     text-decoration: none;
 }
+

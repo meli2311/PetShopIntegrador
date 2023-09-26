@@ -1,75 +1,47 @@
-<!doctype html>
-<html lang="en">
+<x-guest-layout>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-<head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-
-
-    <!--Styles-->
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-
-</head>
-
-<body>
-    <div class="container" id="container">
-        <div class="form-container sign-up-container">
-            <form action="{{route('register')}}" method="post">
-                @csrf
-                <h1>Crear Cuenta</h1>
-                <span>Ingresa tus datos para poder registrarte</span>
-                <input type="text" name="name" placeholder="Name" />
-                <input type="email" name="email" placeholder="Email" />
-                <input type="password" name="password" placeholder="Password" />
-                <input type="password" name="password_confirmation" placeholder="Password confirmation" />
-                <button type="submit">Registrarse</button>
-            </form>
+        <!-- Email Address -->
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-        <div class="form-container sign-in-container">
-            <form action="{{route('login')}}" method="post">
-                @csrf
-                <h1>Iniciar Sesion</h1>
-                <input type="email" name="email" placeholder="Email" />
-                <input type="password" name="password" placeholder="Password" />
-                <a href="#">Olvidaste tu contraseña?</a>
-                <button type="submit">Ingresar</button>
-            </form>
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="current-password" />
+
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1>Iniciar Sesion</h1>
-                    <p>Ingresa y se parte de esta experiencia</p>
-                    <button class="ghost" id="signIn">Ingresar</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>Hola PetLover!</h1>
-                    <p>Ingresa tus datos para poder registrarte</p>
-                    <button class="ghost" id="signUp">Registrarme</button>
-                </div>
-            </div>
+
+        <!-- Remember Me -->
+        <div class="block mt-4">
+            <label for="remember_me" class="inline-flex items-center">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            </label>
         </div>
-    </div>
 
-    <script>
-        const signUpButton = document.getElementById('signUp');
-        const signInButton = document.getElementById('signIn');
-        const container = document.getElementById('container');
+        <div class="flex items-center justify-end mt-4">
+            @if (Route::has('password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
 
-        signUpButton.addEventListener('click', () => {
-            container.classList.add("right-panel-active");
-        });
-
-        signInButton.addEventListener('click', () => {
-            container.classList.remove("right-panel-active");
-        });
-    </script>
-</body>
-
-</html>
+            <x-primary-button class="ml-3">
+                {{ __('Log in') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
