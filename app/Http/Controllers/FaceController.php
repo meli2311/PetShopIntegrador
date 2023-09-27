@@ -12,11 +12,12 @@ use Illuminate\Support\Facades\Auth;
 class FaceController extends Controller
 /*configurar el driver para dos rutas necesitamos dos metodos*/
 {
+    
     public function redirectFacebook(){
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function callbackFacebookk(){
+    public function callbackFacebook(){
         /*buscar ese id si lo encuentra realizamos el login y lo dirigimos al dashboard*/
         try{
             $facebookUser = Socialite::driver('facebook')->user();
