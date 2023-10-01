@@ -18,13 +18,10 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function (){
-    return view('dashboard');
-})->name('dashboard');
-
-Route::get('auth/facebook', [FaceController::class, 'redirectFacebook']);
-Route::get('auth/facebook/callback', [FaceController::class, 'callbackFacebook']);
-
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('login/facebook', [App\Http\Controllers\FaceController::class, 'login'])->name('login.facebook');
+Route::get('facebook/auth/callback', [App\Http\Controllers\FaceController::class, 'callback']);
+Route::get('/login-google', [App\Http\Controllers\GoogleController::class, 'login'])->name('login.google');
+Route::get('/google-callback', [App\Http\Controllers\GoogleController::class, 'callback']);
 

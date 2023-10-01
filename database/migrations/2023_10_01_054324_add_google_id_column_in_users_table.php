@@ -9,20 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('fb_id')->nullable();
+            $table->string('google_id')->nullable();
+            $table->string('password')->nullable()->change();
+            $table->string('avatar')->nullable();
+            $table->string('google_auth')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('fb_id');
+             $table->dropColumn('google_id');
         });
     }
 };

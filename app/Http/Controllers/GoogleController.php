@@ -9,30 +9,31 @@ use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
-class FaceController extends Controller
+class GoogleController extends Controller
 /*configurar el driver para dos rutas necesitamos dos metodos*/
 {
     
     public function login(){
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('google')->redirect();
     }
 
     public function callback(){
         /*buscar ese id si lo encuentra realizamos el login y lo dirigimos al dashboard*/
         try{
-            $facebookUser = Socialite::driver('facebook')->user();
-            $findUser = User::where('fb_id', $facebookUser->id)->first();
+            $googleUser= Socialite::driver('google')->user();
+            $userExists= User::where('google_id', $user->id)->where('google_auth', 'google')->first();
 
-            if ($findUser) {
-                Auth::login($findUser);
+            if ($userExists) {
+                Auth::login($userExists);
                 return redirect()->intended('home');
             }else {
                 /*en caso contrario generar nuevo usuario */
                 $newUser = User::create([
-                    'name'=>$facebookUser->name,
-                    'email'=>$facebookUser->email,
-                    'fb_id'=>$facebookUser->id,
-                    'password'=> encrypt(12345678)
+                    'name'=>$googleUser->name,
+                    'email'=>$googleUser->email,
+                    'avatar'=>$googleUser->avatar,
+                    'google_id'=>$googleUser->id,
+                    'google_auth'=>'google',
                 ]);
                 Auth::login($newUser);
                 return redirect()->intended('home');

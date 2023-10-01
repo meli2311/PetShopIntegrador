@@ -29,7 +29,8 @@
                 <input type="password" name="password" placeholder="Password" />
                 <input type="password" name="password_confirmation" placeholder="Password confirmation" />
                 <button type="submit">Registrarse</button>
-                <a class="btn btn-facebook" href="{{url('auth/facebook')}}">Ingresar con facebook</a>
+                <a class="loginBtn loginBtn--facebook" href="{{url('login/facebook')}}">Ingresar con facebook</a>
+                <a class="loginBtn loginBtn--google" href="{{url('/login-google')}}">Ingresar con google</a>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -40,7 +41,8 @@
                 <input type="password" name="password" placeholder="Password" />
                 <a href="#">Olvido su contraseña?</a>
                 <button type="submit">Ingresar</button>
-                <a class="btn btn-facebook" href="{{url('auth/facebook')}}">Ingresar con facebook</a>
+                <a class="loginBtn loginBtn--facebook" href="{{url('login/facebook')}}">Ingresar con facebook</a>
+                <a class="loginBtn loginBtn--google" href="{{url('/login-google')}}">Ingresar con google</a>
             </form>
         </div>
         <div class="overlay-container">
