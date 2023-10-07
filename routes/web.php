@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\FaceController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +19,39 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
 
-Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('login/facebook', [App\Http\Controllers\FaceController::class, 'login'])->name('login.facebook');
-Route::get('facebook/auth/callback', [App\Http\Controllers\FaceController::class, 'callback']);
-Route::get('/login-google', [App\Http\Controllers\GoogleController::class, 'login'])->name('login.google');
-Route::get('/google-callback', [App\Http\Controllers\GoogleController::class, 'callback']);
+Route::get('/google-auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
 
+Route::get('/google-auth/callback', function () {
+    $user_google = Socialite::driver('google')->user();
+
+    $user = Socialite::driver('google')->user();
+
+    $user = User::updateOrCreate([
+        'google_id' => $user_google->id,
+    ], [
+        'name' => $user_google->name,
+        'email' => $user_google->email
+    ]);
+
+    Auth::login($user);
+
+    return redirect('/dashboard');
+    // $user->token
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
